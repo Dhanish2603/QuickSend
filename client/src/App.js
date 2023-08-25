@@ -1,24 +1,35 @@
-import {useRef, useState }from "react"
-import './App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function App() {
-  const fileData = useRef();
-  const [file, setFile] = useState()
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setFile(file);
+    setSelectedFile(event.target.files[0]);
   };
-  const submitHanlder = (e) => {
-    e.preventDefault();
-    console.log('Uploading file:', file.name);
+
+  const handleFileUpload = async () => {
+    if (!selectedFile) {
+      alert('Please select a file.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+      await axios.post('http://localhost:5000/upload', formData);
+      alert('File uploaded and saved to database.');
+    } catch (error) {
+      alert('An error occurred.');
+    }
   };
+
   return (
     <div className="App">
-      
-        <label htmlFor="">file upload</label>
-        <input type="file" name="file" id="" onChange={handleFileChange}/>
-        <button onClick = {submitHanlder}>Click to upload</button>
-      
+      <h1>File Upload Demo</h1>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleFileUpload}>Upload File</button>
     </div>
   );
 }
