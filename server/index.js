@@ -9,7 +9,7 @@ dotenv.config();
 
 app.use(cors());
 app.use(helmet());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/",routes);
 
 app.listen(process.env.PORT, function (error) {
