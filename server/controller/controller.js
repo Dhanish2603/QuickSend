@@ -17,3 +17,7 @@ exports.uploadFile = async (req, res) => {
     // res.status(500).send('An error occurred.');
   }
 };
+
+exports.showFile = async(req,res)=>{
+  
+}
