@@ -18,6 +18,10 @@ exports.uploadFile = async (req, res) => {
   }
 };
 
-exports.showFile = async(req,res)=>{
-  
+exports.getListFiles = async (req, res) => {
+  const id = "64f84492cdd9a2b27a576d90";
+  const ans = await Image.findById("64fc1322d3d577382c7abf1b")
+  console.log(ans)
+  // res.contentType("image/jpg");
+  res.send(ans.data);
 }
