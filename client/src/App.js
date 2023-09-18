@@ -19,8 +19,9 @@ function App() {
 
     try {
 
-      await axios.post('http://localhost:5000/upload', formData);
-      alert('File uploaded and saved to database.');
+     const ans =  await axios.post('http://localhost:5000/upload', formData);
+     console.log(ans.data.id)
+      alert(`https://localhost:3000/image/${ans.data.id}`);
     } catch (error) {
       alert('An error occurred.');
     }
@@ -30,11 +31,11 @@ function App() {
       
       const res = await fetch('http://localhost:5000/files', {
         method: 'POST',
-        
-          body: JSON.stringify({id:"64fc1322d3d577382c7abf1b"})
-          });
-          console.log(res);
-      setSelectedFile(res.data)
+        responseType: 'arraybuffer',
+          body: JSON.stringify({id:"65072d90e065f030f03db51f"})
+          }) 
+          console.log(res.data);
+      // setSelectedFile(res.data)
     } catch (error) {
       console.log(error);
     }
@@ -46,7 +47,7 @@ function App() {
       <h1>File Upload Demo</h1>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleFileUpload}>Upload File</button>
-      <img src={{selectedFile}+".jpg"} height={100} width={100} alt="clicked" />
+      <img src={`${selectedFile}.png`} height={100} width={100} alt="clicked" />
       <button onClick={showImage}>image</button>
     </div>
   );

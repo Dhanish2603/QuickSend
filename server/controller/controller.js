@@ -8,20 +8,21 @@ exports.uploadFile = async (req, res) => {
       data: fs.readFileSync(__dirname + "/uploads/" + req.file.filename),
       // contentType: req.file.mimetype,
     });
-    console.log(value);
-    await value.save();
+    console.log(req.file)
+    // console.log(value);
+    const response = await value.save()
 
-    res.status(201).send("File uploaded and saved to database.");
+    res.status(201).json({id:response._id});
   } catch (error) {
     console.log(error);
     // res.status(500).send('An error occurred.');
   }
 };
 
-exports.getListFiles = async (req, res) => {
-  const id = "64f84492cdd9a2b27a576d90";
-  const ans = await Image.findById("64fc1322d3d577382c7abf1b")
-  console.log(ans)
-  // res.contentType("image/jpg");
-  res.send(ans.data);
+exports.getListFiles = async (req, res) => { 
+  const ans = await Image.findById("65072b7f5877c38cf23014ba")
+  console.log(ans.data+".png")
+  res.contentType("image/png"); 
+  const value = ans.data
+  res.send(value);
 }
