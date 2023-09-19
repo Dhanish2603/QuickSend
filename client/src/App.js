@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Buffer } from 'buffer';
 // axios.defaults.withCredentials = true;
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -28,14 +29,22 @@ function App() {
   };
   const showImage = async () => {
     try {
-      
-      const res = await fetch('http://localhost:5000/files', {
-        method: 'POST',
+      const response = await axios.post(`http://localhost:5000/files`, {
         responseType: 'arraybuffer',
-          body: JSON.stringify({id:"65072d90e065f030f03db51f"})
-          }) 
-          console.log(res.data);
-      // setSelectedFile(res.data)
+      });
+      const base64Image = Buffer.from(response.data, 'binary').toString(
+        'base64'
+      );
+      setSelectedFile(`${base64Image}`);
+      console.log(selectedFile)
+      // const response = await fetch('http://localhost:5000/files', {
+      //   method: 'POST', 
+      //     body: JSON.stringify({id:"65072d90e065f030f03db51f"})
+      //     }) 
+      //     console.log(response.data)
+          // const data = new Buffer.from(response.data, 'binary').toString('base64');
+          // console.log(data)
+          // setSelectedFile(data);
     } catch (error) {
       console.log(error);
     }
@@ -47,7 +56,10 @@ function App() {
       <h1>File Upload Demo</h1>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleFileUpload}>Upload File</button>
-      <img src={`${selectedFile}.png`} height={100} width={100} alt="clicked" />
+      <img src={`data:image/png;base64,${selectedFile}`} height={100} width={100} alt="clicked" />
+      {selectedFile && 
+      <img src={selectedFile} height={100} width={100} alt="working" srcset="" />
+      }
       <button onClick={showImage}>image</button>
     </div>
   );

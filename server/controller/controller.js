@@ -21,8 +21,8 @@ exports.uploadFile = async (req, res) => {
 
 exports.getListFiles = async (req, res) => { 
   const ans = await Image.findById("65072b7f5877c38cf23014ba")
-  console.log(ans.data+".png")
+  console.log(ans.data ) 
+  // const value = ans.data+".png"
   res.contentType("image/png"); 
-  const value = ans.data
-  res.send(value);
+  res.send(ans.data);
 }
